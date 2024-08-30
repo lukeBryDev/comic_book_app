@@ -49,11 +49,11 @@ class _ComicMasonryState extends State<ComicMasonry> {
             return Column(
               children: [
                 const SizedBox(height: 40),
-                ComicPosterLink(comic: widget.comics[index]),
+                ComicPosterCard(comic: widget.comics[index]),
               ],
             );
           }
-          return ComicPosterLink(comic: widget.comics[index]);
+          return ComicPosterCard(comic: widget.comics[index]);
         },
       ),
     );
