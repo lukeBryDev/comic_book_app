@@ -23,7 +23,8 @@ class _MovieScreenState extends State<ComicScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final ComicEntity? comic = comicMock; //TODO: change to comic real value
+    final ComicDetailEntity? comic =
+        comicMock; //TODO: change to comic real value
     // final Movie? movie = ref.watch(movieInfoProvider)[widget.movieId];
 
     if (comic == null) {
@@ -50,13 +51,91 @@ class _MovieScreenState extends State<ComicScreen> {
   }
 }
 
-final ComicEntity? comicMock = ComicEntity(
-  id: 6,
+final ComicDetailEntity? comicMock = const ComicDetailEntity(
   image:
-      "https:\/\/comicvine.gamespot.com\/a\/uploads\/original\/5\/58993\/2645776-chamber_of_chills__13_cgc_8.5.jpg",
-  firstStoresSoldDate: DateTime.tryParse("2008-06-06 11:10:16"),
-  name: "The Lost Race",
+      "https:\/\/comicvine.gamespot.com\/a\/uploads\/original\/11182\/111829875\/9399221-img_5439.jpeg",
+  title: "The Lost Race",
   number: "13",
+  description:
+      "<p><i>New ongoing series starring fan-favorite teen heroes! Moon Girl &amp; Devil Dinosaur – Red Goblin – Bloodline, Daughter of Blade – Captain America of the Railways – Kid Juggernaut – Escapade of the X-Men! You saw the team come together in Marvel’s Voices’ “Unlike Any Other” – now school’s in session. And already under attack!!!<\/i><\/p>",
+  creators: [
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+  ],
+  characters: [
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+  ],
+  teams: [
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+  ],
+  concepts: [
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+  ],
 );
 
 /*final isFavoriteMovieProvider =
@@ -67,7 +146,7 @@ final ComicEntity? comicMock = ComicEntity(
 });*/
 
 class _CustomSliverAppBar extends StatelessWidget {
-  final ComicEntity comic;
+  final ComicDetailEntity comic;
 
   const _CustomSliverAppBar({required this.comic});
 
@@ -170,7 +249,7 @@ class _CustomGradient extends StatelessWidget {
 }
 
 class _ComicDetails extends StatelessWidget {
-  final ComicEntity comic;
+  final ComicDetailEntity comic;
 
   const _ComicDetails({required this.comic});
 

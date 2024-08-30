@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 class ComicDetailEntity extends Equatable {
   final String? title;
   final String? number;
-  final String? image;
+  final String image;
   final String? description;
   final List<ComicDetailItemEntity> creators;
   final List<ComicDetailItemEntity> characters;
