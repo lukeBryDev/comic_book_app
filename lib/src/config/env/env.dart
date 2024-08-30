@@ -29,7 +29,7 @@ class Env {
   static const String _apiProduction = "https://comicvine.gamespot.com/api";
   static const String _apiSandbox = "https://comicvine.gamespot.com/api";
   static const String _apiLocal = "http://192.168.10.169:8001";
-  static String theMovieDbKey = dotenv.env['COMIC_VINE_KEY'] ?? 'No API key';
+  static String comicVineApiKey = dotenv.env['COMIC_VINE_KEY'] ?? 'No API key';
 
   static const String _iOSLabel = "KHC Admin";
   static const String _androidLabel = "KHC Admin";

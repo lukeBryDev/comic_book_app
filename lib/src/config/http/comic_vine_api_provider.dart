@@ -7,8 +7,37 @@ class ComicVineAPIProvider {
 
   late Dio dio;
 
+  late ComicVineQueryParams queryParams;
+
   ComicVineAPIProvider() {
-    dio = Dio(BaseOptions(baseUrl: _baseApiUrl));
+    queryParams = ComicVineQueryParams(apiKey: Env.comicVineApiKey);
+    dio = Dio(
+        BaseOptions(baseUrl: _baseApiUrl, queryParameters: queryParams.params));
     dio.interceptors.add(AppInterceptors());
+  }
+}
+
+class ComicVineQueryParams {
+  final String apiKey;
+  final Map<String, dynamic>? params;
+
+  ComicVineQueryParams({required this.apiKey, this.params});
+
+  ComicVineQueryParams copyWith(
+          {String? apiKey, Map<String, dynamic>? params}) =>
+      ComicVineQueryParams(
+          apiKey: apiKey ?? this.apiKey, params: params ?? this.params);
+
+  Map<String, dynamic> queryParams() {
+    final base = {
+      'format': 'json',
+      'api_key': apiKey,
+    };
+    Map<String, dynamic> queryParams = {
+      ...base,
+      ...?params,
+    };
+
+    return queryParams;
   }
 }

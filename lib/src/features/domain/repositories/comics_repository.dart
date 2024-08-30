@@ -5,4 +5,7 @@ import 'package:dartz/dartz.dart';
 
 abstract class ComicsRepository {
   Future<Either<Failure, ComicsEntity>> getComics(GetComicsDTO params);
+
+  Future<Either<Failure, ComicDetailEntity>> getComicDetail(
+      GetComicDetailDTO params);
 }

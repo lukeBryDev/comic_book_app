@@ -26,4 +26,21 @@ class ComicsRepositoryImpl implements ComicsRepository {
       throw ExceptionFailure(error: error).extract;
     }
   }
+
+  @override
+  Future<Either<Failure, ComicDetailEntity>> getComicDetail(
+      GetComicDetailDTO params) async {
+    try {
+      final res = await remoteDataSource.comicDetail(params);
+      return Right(res);
+    } on ServerFailure catch (server) {
+      return Left(server);
+    } on DioException catch (e) {
+      throw ServerFailure(error: e).extract;
+    } on Error catch (e) {
+      throw ErrorFailure(error: e);
+    } on Exception catch (error) {
+      throw ExceptionFailure(error: error).extract;
+    }
+  }
 }
