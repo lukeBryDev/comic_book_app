@@ -1,6 +1,8 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:comic_book_app/src/config/settings/app_assets.dart';
 import 'package:comic_book_app/src/features/domain/entities/entities.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class ComicScreen extends StatefulWidget {
   static const name = 'comic-screen';
@@ -51,99 +53,121 @@ class _MovieScreenState extends State<ComicScreen> {
   }
 }
 
-final ComicDetailEntity? comicMock = const ComicDetailEntity(
-  image:
-      "https:\/\/comicvine.gamespot.com\/a\/uploads\/original\/11182\/111829875\/9399221-img_5439.jpeg",
-  title: "The Lost Race",
-  number: "13",
-  description:
-      "<p><i>New ongoing series starring fan-favorite teen heroes! Moon Girl &amp; Devil Dinosaur – Red Goblin – Bloodline, Daughter of Blade – Captain America of the Railways – Kid Juggernaut – Escapade of the X-Men! You saw the team come together in Marvel’s Voices’ “Unlike Any Other” – now school’s in session. And already under attack!!!<\/i><\/p>",
-  creators: [
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-  ],
-  characters: [
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-  ],
-  teams: [
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-  ],
-  concepts: [
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-  ],
-);
-
 /*final isFavoriteMovieProvider =
     FutureProvider.family.autoDispose((ref, int movieId) {
   final localStorageRepository = ref.watch(localStorageRepositoryProvider);
 
   return localStorageRepository.isMovieFavorite(movieId);
 });*/
+
+class _ComicDetails extends StatelessWidget {
+  final ComicDetailEntity comic;
+
+  const _ComicDetails({required this.comic});
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final textStyles = Theme.of(context).textTheme;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 10),
+          Text(comic.description ?? 'Sin descripción'),
+          const SizedBox(height: 20),
+          _CreditsListView(
+            title: 'Creators',
+            items: comic.creators,
+          ),
+          const SizedBox(height: 10),
+          _CreditsListView(
+            title: 'Characters',
+            items: comic.characters,
+          ),
+          const SizedBox(height: 10),
+          _CreditsListView(
+            title: 'Teams',
+            items: comic.teams,
+          ),
+          const SizedBox(height: 10),
+          _CreditsListView(
+            title: 'Locations',
+            items: comic.locations,
+          ),
+          const SizedBox(height: 10),
+          _CreditsListView(
+            title: 'Concepts',
+            items: comic.concepts,
+          ),
+          const SizedBox(height: 20),
+        ],
+      ),
+    );
+  }
+}
+
+class _CreditsListView extends StatelessWidget {
+  final String title;
+  final List<ComicDetailItemEntity> items;
+
+  const _CreditsListView({required this.title, required this.items});
+
+  @override
+  Widget build(BuildContext context) {
+    final textStyles = Theme.of(context).textTheme;
+    if (items.isEmpty) {
+      return const CircularProgressIndicator(strokeWidth: 2);
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(title, style: textStyles.titleLarge),
+        const Divider(),
+        SizedBox(
+          height: 120,
+          child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                final item = items[index];
+                return Container(
+                  padding: const EdgeInsets.all(8),
+                  width: 135,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Actor photo
+                      FadeInRight(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.network(
+                            item.image,
+                            height: 50,
+                            width: 50,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      // Actor name
+                      const SizedBox(height: 5),
+                      Text(item.name, maxLines: 2),
+                      Text(
+                        item.role ?? '',
+                        style: const TextStyle(color: Colors.grey),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                );
+              }),
+        ),
+      ],
+    );
+  }
+}
 
 class _CustomSliverAppBar extends StatelessWidget {
   final ComicDetailEntity comic;
@@ -248,121 +272,111 @@ class _CustomGradient extends StatelessWidget {
   }
 }
 
-class _ComicDetails extends StatelessWidget {
-  final ComicDetailEntity comic;
-
-  const _ComicDetails({required this.comic});
-
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final textStyles = Theme.of(context).textTheme;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        /*Padding(
-          padding: const EdgeInsets.all(8),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              //  image
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.network(
-                  comic.image,
-                  width: size.width * 0.3,
-                ),
-              ),
-              const SizedBox(width: 10),
-              // description
-              SizedBox(
-                width: (size.width - 40) * 0.7,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(comic.title, style: textStyles.titleLarge),
-                    Text(comic.overview),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        // genders
-        Padding(
-          padding: const EdgeInsets.all(8),
-          child: Wrap(
-            children: comic.genreIds
-                .map((genre) => Container(
-                      margin: const EdgeInsets.only(right: 10),
-                      child: Chip(
-                        label: Text(genre),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20)),
-                      ),
-                    ))
-                .toList(),
-          ),
-        ),
-        // _ActorsByMovie(movieId: comic.id.toString()),
-        const SizedBox(height: 50),*/
-      ],
-    );
-  }
-}
-
-/*class _ActorsByMovie extends StatelessWidget {
-  final String movieId;
-
-  const _ActorsByMovie({required this.movieId});
-
-  @override
-  Widget build(BuildContext context) {
-    // final actorsByMovie = ref.watch(actorsByMovieProvider);
-    // final actors = actorsByMovie[movieId];
-
-    if (actors == null) {
-      return const CircularProgressIndicator(strokeWidth: 2);
-    }
-    return SizedBox(
-      height: 300,
-      child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: actors.length,
-          itemBuilder: (context, index) {
-            final actor = actors[index];
-            return Container(
-              padding: const EdgeInsets.all(8),
-              width: 135,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Actor photo
-                  FadeInRight(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Image.network(
-                        actor.profilePath,
-                        height: 180,
-                        width: 135,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  // Actor name
-                  const SizedBox(height: 5),
-                  Text(actor.name, maxLines: 2),
-                  Text(
-                    actor.character ?? '',
-                    maxLines: 2,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
-            );
-          }),
-    );
-  }
-}*/
+const ComicDetailEntity? comicMock = ComicDetailEntity(
+  image:
+      "https:\/\/comicvine.gamespot.com\/a\/uploads\/original\/11182\/111829875\/9399221-img_5439.jpeg",
+  title: "The Lost Race",
+  number: "13",
+  description:
+      "<p><i>New ongoing series starring fan-favorite teen heroes! Moon Girl &amp; Devil Dinosaur – Red Goblin – Bloodline, Daughter of Blade – Captain America of the Railways – Kid Juggernaut – Escapade of the X-Men! You saw the team come together in Marvel’s Voices’ “Unlike Any Other” – now school’s in session. And already under attack!!!<\/i><\/p>",
+  creators: [
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+  ],
+  characters: [
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+  ],
+  teams: [
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+  ],
+  concepts: [
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+  ],
+  locations: [
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+    ComicDetailItemEntity(
+        image:
+            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
+        name: 'Brayan',
+        role: 'ceator'),
+  ],
+);

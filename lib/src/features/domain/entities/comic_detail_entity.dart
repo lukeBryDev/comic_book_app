@@ -9,6 +9,7 @@ class ComicDetailEntity extends Equatable {
   final List<ComicDetailItemEntity> creators;
   final List<ComicDetailItemEntity> characters;
   final List<ComicDetailItemEntity> teams;
+  final List<ComicDetailItemEntity> locations;
   final List<ComicDetailItemEntity> concepts;
 
   const ComicDetailEntity(
@@ -19,6 +20,7 @@ class ComicDetailEntity extends Equatable {
       required this.creators,
       required this.characters,
       required this.teams,
+      required this.locations,
       required this.concepts});
 
   @override
@@ -30,6 +32,7 @@ class ComicDetailEntity extends Equatable {
         creators,
         characters,
         teams,
+        locations,
         concepts
       ];
 }

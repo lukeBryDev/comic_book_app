@@ -18,7 +18,7 @@ class ComicPosterCard extends StatelessWidget {
         child: Column(
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(10),
               child: FadeInImage(
                 height: 180,
                 fit: BoxFit.cover,
