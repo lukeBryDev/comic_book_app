@@ -11,7 +11,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   ThemeBloc() : super(ThemeState()) {
     // constructor body
 
-    /// Handler o manejador de un CounterEvent
+    /// Handler o manejador de un event
     on<ToggleDarkMode>(_toggleDarkMode);
     on<SetSelectedColor>(_setSelectedColor);
 

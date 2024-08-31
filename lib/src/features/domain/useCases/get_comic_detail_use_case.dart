@@ -5,11 +5,11 @@ import 'package:comic_book_app/src/features/domain/entities/entities.dart';
 import 'package:comic_book_app/src/features/domain/repositories/comics_repository.dart';
 import 'package:dartz/dartz.dart';
 
-class GetComicsUseCase
+class GetComicDetailUseCase
     implements UseCase<ComicDetailEntity, GetComicDetailDTO> {
   final ComicsRepository repository;
 
-  GetComicsUseCase(this.repository);
+  GetComicDetailUseCase(this.repository);
 
   @override
   Future<Either<Failure, ComicDetailEntity>> call(
