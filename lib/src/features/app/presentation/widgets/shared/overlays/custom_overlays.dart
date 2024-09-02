@@ -15,8 +15,8 @@ class Show {
                 .replaceAll("]", "")
                 .replaceAll("(", "")
                 .replaceAll(")", "");
-      } catch (_) {
-        log("$_", name: "Error: eitherError");
+      } catch (error) {
+        log("$error", name: "Error: eitherError");
       }
     }
     return snackBarError(context, "¡Ups, algo va mal!", message ?? "");
@@ -24,8 +24,8 @@ class Show {
 
   static void snackBarError(
     BuildContext context,
-    String? title,
-    String? subTitle, {
+    String title,
+    String subTitle, {
     Duration? delay,
     void Function()? onTap,
     void Function(dynamic data)? onTapWithData,
@@ -33,16 +33,37 @@ class Show {
     Widget? widgetSubtitle,
   }) {
     final snackBar = SnackBar(
-      content: const Text('Yay! A SnackBar!'),
+      content: Text(title),
       action: SnackBarAction(
-        label: 'Close',
-        onPressed: () {
-          // Some code to undo the change.
-        },
+        label: 'Details',
+        onPressed: () => _dialogErrorDetailsBuilder(context, details: subTitle),
       ),
     );
 
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    //TODO: implement snack bar
+  }
+
+  static Future<void> _dialogErrorDetailsBuilder(BuildContext context,
+      {required String details}) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Error details'),
+          content: Text(details),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

@@ -25,9 +25,10 @@ class HomeScreen extends StatelessWidget {
                 icon: const Icon(Icons.color_lens_outlined)),
 
             /// Favorites
-            IconButton(
+            /// TODO: implement favorites form local db
+            /*IconButton(
                 onPressed: () => context.push('/favorites'),
-                icon: const Icon(Icons.favorite_outline))
+                icon: const Icon(Icons.favorite_outline))*/
           ],
         ),
         body: const _HomeView(),
@@ -69,134 +70,3 @@ class _HomeViewState extends State<_HomeView> {
     );
   }
 }
-
-final List<ComicEntity> _comicsMock = <ComicEntity>[
-  ComicEntity(
-    id: 6,
-    image:
-        "https:\/\/comicvine.gamespot.com\/a\/uploads\/original\/5\/58993\/2645776-chamber_of_chills__13_cgc_8.5.jpg",
-    firstStoresSoldDate: DateTime.tryParse("2008-06-06 11:10:16"),
-    name: "The Lost Race",
-    number: "13",
-  ),
-  ComicEntity(
-    id: 7,
-    image:
-        "https:\/\/comicvine.gamespot.com\/a\/uploads\/original\/0\/4\/8-1488-7-1-fighting-fronts-.jpg",
-    firstStoresSoldDate: DateTime.tryParse("1952-10-01"),
-    name: null,
-    number: "3",
-  ),
-  ComicEntity(
-    id: 8,
-    image:
-        "https:\/\/comicvine.gamespot.com\/a\/uploads\/original\/0\/4\/9-1489-8-1-tomb-of-terror.jpg",
-    firstStoresSoldDate: DateTime.tryParse("2008-06-06 11:10:16"),
-    name: null,
-    number: "5",
-  ),
-  ComicEntity(
-    id: 9,
-    image:
-        "https:\/\/comicvine.gamespot.com\/a\/uploads\/original\/0\/4\/10-1418-9-1-witches-tales.jpg",
-    firstStoresSoldDate: DateTime.tryParse("1952-10-01"),
-    name: null,
-    number: "15",
-  ),
-  ComicEntity(
-    id: 6,
-    image:
-        "https:\/\/comicvine.gamespot.com\/a\/uploads\/original\/5\/58993\/2645776-chamber_of_chills__13_cgc_8.5.jpg",
-    firstStoresSoldDate: DateTime.tryParse("2008-06-06 11:10:16"),
-    name: "The Lost Race",
-    number: "13",
-  ),
-  ComicEntity(
-    id: 7,
-    image:
-        "https:\/\/comicvine.gamespot.com\/a\/uploads\/original\/0\/4\/8-1488-7-1-fighting-fronts-.jpg",
-    firstStoresSoldDate: DateTime.tryParse("1952-10-01"),
-    name: null,
-    number: "3",
-  ),
-  ComicEntity(
-    id: 8,
-    image:
-        "https:\/\/comicvine.gamespot.com\/a\/uploads\/original\/0\/4\/9-1489-8-1-tomb-of-terror.jpg",
-    firstStoresSoldDate: DateTime.tryParse("2008-06-06 11:10:16"),
-    name: null,
-    number: "5",
-  ),
-  ComicEntity(
-    id: 9,
-    image:
-        "https:\/\/comicvine.gamespot.com\/a\/uploads\/original\/0\/4\/10-1418-9-1-witches-tales.jpg",
-    firstStoresSoldDate: DateTime.tryParse("1952-10-01"),
-    name: null,
-    number: "15",
-  ),
-  ComicEntity(
-    id: 6,
-    image:
-        "https:\/\/comicvine.gamespot.com\/a\/uploads\/original\/5\/58993\/2645776-chamber_of_chills__13_cgc_8.5.jpg",
-    firstStoresSoldDate: DateTime.tryParse("2008-06-06 11:10:16"),
-    name: "The Lost Race",
-    number: "13",
-  ),
-  ComicEntity(
-    id: 7,
-    image:
-        "https:\/\/comicvine.gamespot.com\/a\/uploads\/original\/0\/4\/8-1488-7-1-fighting-fronts-.jpg",
-    firstStoresSoldDate: DateTime.tryParse("1952-10-01"),
-    name: null,
-    number: "3",
-  ),
-  ComicEntity(
-    id: 8,
-    image:
-        "https:\/\/comicvine.gamespot.com\/a\/uploads\/original\/0\/4\/9-1489-8-1-tomb-of-terror.jpg",
-    firstStoresSoldDate: DateTime.tryParse("2008-06-06 11:10:16"),
-    name: null,
-    number: "5",
-  ),
-  ComicEntity(
-    id: 9,
-    image:
-        "https:\/\/comicvine.gamespot.com\/a\/uploads\/original\/0\/4\/10-1418-9-1-witches-tales.jpg",
-    firstStoresSoldDate: DateTime.tryParse("1952-10-01"),
-    name: null,
-    number: "15",
-  ),
-  ComicEntity(
-    id: 6,
-    image:
-        "https:\/\/comicvine.gamespot.com\/a\/uploads\/original\/5\/58993\/2645776-chamber_of_chills__13_cgc_8.5.jpg",
-    firstStoresSoldDate: DateTime.tryParse("2008-06-06 11:10:16"),
-    name: "The Lost Race",
-    number: "13",
-  ),
-  ComicEntity(
-    id: 7,
-    image:
-        "https:\/\/comicvine.gamespot.com\/a\/uploads\/original\/0\/4\/8-1488-7-1-fighting-fronts-.jpg",
-    firstStoresSoldDate: DateTime.tryParse("1952-10-01"),
-    name: null,
-    number: "3",
-  ),
-  ComicEntity(
-    id: 8,
-    image:
-        "https:\/\/comicvine.gamespot.com\/a\/uploads\/original\/0\/4\/9-1489-8-1-tomb-of-terror.jpg",
-    firstStoresSoldDate: DateTime.tryParse("2008-06-06 11:10:16"),
-    name: null,
-    number: "5",
-  ),
-  ComicEntity(
-    id: 9,
-    image:
-        "https:\/\/comicvine.gamespot.com\/a\/uploads\/original\/0\/4\/10-1418-9-1-witches-tales.jpg",
-    firstStoresSoldDate: DateTime.tryParse("1952-10-01"),
-    name: null,
-    number: "15",
-  ),
-];

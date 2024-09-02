@@ -34,7 +34,8 @@ class ComicVineRemoteDataSource extends ComicVineAPIProvider
   Future<ComicDetailEntity> comicDetail(GetComicDetailDTO params) async {
     try {
       final String path = '/issue/4000-${params.id}';
-      final res = await dio.get(path);
+      final res =
+          await dio.get(path, queryParameters: queryParams.queryParams());
       final issue = IssueDetailComicVine.fromJson(res.data['results']);
       return ComicDetailMapper.comicDetailEntity(issue);
     } on DioException catch (e) {

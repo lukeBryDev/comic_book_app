@@ -1,10 +1,11 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:comic_book_app/src/config/settings/app_assets.dart';
+import 'package:comic_book_app/injection_container.dart';
+import 'package:comic_book_app/src/features/app/presentation/blocs/comic/comic_bloc.dart';
 import 'package:comic_book_app/src/features/domain/entities/entities.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ComicScreen extends StatefulWidget {
+class ComicScreen extends StatelessWidget {
   static const name = 'comic-screen';
 
   final int comicId;
@@ -12,47 +13,79 @@ class ComicScreen extends StatefulWidget {
   const ComicScreen({super.key, required this.comicId});
 
   @override
-  State<ComicScreen> createState() => _MovieScreenState();
-}
-
-class _MovieScreenState extends State<ComicScreen> {
-  @override
-  void initState() {
-    super.initState();
-    // ref.read(movieInfoProvider.notifier).loadMovie(widget.movieId);
-    // ref.read(actorsByMovieProvider.notifier).loadActors(widget.movieId);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final ComicDetailEntity? comic =
-        comicMock; //TODO: change to comic real value
-    // final Movie? movie = ref.watch(movieInfoProvider)[widget.movieId];
-
-    if (comic == null) {
-      return const Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(strokeWidth: 2),
-        ),
-      );
-    }
-    return Scaffold(
-      body: CustomScrollView(
-        physics: const ClampingScrollPhysics(),
-        slivers: [
-          _CustomSliverAppBar(comic: comic),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) => _ComicDetails(comic: comic),
-              childCount: 1,
-            ),
-          )
-        ],
-      ),
+    return BlocProvider<ComicBloc>(
+      create: (context) => ComicBloc(getComicDetailUseCase: sl()),
+      child: _ComicView(comicId),
     );
   }
 }
 
+class _ComicView extends StatefulWidget {
+  final int comicId;
+
+  const _ComicView(this.comicId);
+
+  @override
+  State<_ComicView> createState() => _ComicViewState();
+}
+
+class _ComicViewState extends State<_ComicView> {
+  @override
+  void initState() {
+    final comicBloc = BlocProvider.of<ComicBloc>(context);
+    comicBloc.add(GetComicDetail(context: context, id: widget.comicId));
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ComicBloc, ComicState>(
+      builder: (context, state) {
+        final colors = Theme.of(context).colorScheme;
+        final ComicDetailEntity? comic = state.comic;
+
+        if (state.loading == true) {
+          return Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(
+                  color: colors.primary, strokeWidth: 2),
+            ),
+          );
+        }
+        if (comic == null) {
+          return Scaffold(
+            appBar: AppBar(),
+            body: const Center(
+              child: Text('Error loading comic data'),
+            ),
+          );
+        }
+        return Scaffold(
+          body: RefreshIndicator(
+            color: colors.primary,
+            onRefresh: () async => BlocProvider.of<ComicBloc>(context)
+                .add(GetComicDetail(context: context, id: widget.comicId)),
+            child: CustomScrollView(
+              physics: const ClampingScrollPhysics(),
+              slivers: [
+                _CustomSliverAppBar(comic: comic),
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) => _ComicDetails(comic: comic),
+                    childCount: 1,
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+/// TODO: implement favorites form local db
 /*final isFavoriteMovieProvider =
     FutureProvider.family.autoDispose((ref, int movieId) {
   final localStorageRepository = ref.watch(localStorageRepositoryProvider);
@@ -67,9 +100,6 @@ class _ComicDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final textStyles = Theme.of(context).textTheme;
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
@@ -178,35 +208,28 @@ class _CustomSliverAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    final dynamic isFavoriteFuture;
-    // = ref.watch(isFavoriteMovieProvider(comic.id));
-
     return SliverAppBar(
       backgroundColor: Colors.black,
       expandedHeight: size.height * 0.7,
       foregroundColor: Colors.white,
-      actions: [
-        IconButton(
+      actions: const [
+        /// TODO: implement favorites form local db
+        /*IconButton(
           onPressed: () async {
             //TODO: integrate
             // await ref.read(favoriteMoviesProvider.notifier).toggleFavorite(comic);
             // ref.invalidate(isFavoriteMovieProvider(comic.id));
           },
           icon: const Icon(Icons.favorite_border),
-          /*isFavoriteFuture.when(
+          */ /*isFavoriteFuture.when(
             data: (isFavorite) => isFavorite ? const Icon(Icons.favorite_rounded, color: Colors.red) : const Icon(Icons.favorite_border),
             error: (_, __) => throw UnimplementedError(),
             loading: () => const CircularProgressIndicator(strokeWidth: 2),
-          ),*/
-        ),
+          ),*/ /*
+        ),*/
       ],
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        /*title: Text(
-          movie.title,
-          style: const TextStyle(fontSize: 20),
-          textAlign: TextAlign.start,
-        ),*/
         background: Stack(
           children: [
             SizedBox.expand(
@@ -271,112 +294,3 @@ class _CustomGradient extends StatelessWidget {
     );
   }
 }
-
-const ComicDetailEntity? comicMock = ComicDetailEntity(
-  image:
-      "https:\/\/comicvine.gamespot.com\/a\/uploads\/original\/11182\/111829875\/9399221-img_5439.jpeg",
-  title: "The Lost Race",
-  number: "13",
-  description:
-      "<p><i>New ongoing series starring fan-favorite teen heroes! Moon Girl &amp; Devil Dinosaur – Red Goblin – Bloodline, Daughter of Blade – Captain America of the Railways – Kid Juggernaut – Escapade of the X-Men! You saw the team come together in Marvel’s Voices’ “Unlike Any Other” – now school’s in session. And already under attack!!!<\/i><\/p>",
-  creators: [
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-  ],
-  characters: [
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-  ],
-  teams: [
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-  ],
-  concepts: [
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-  ],
-  locations: [
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-    ComicDetailItemEntity(
-        image:
-            'https://ih1.redbubble.net/image.4609683629.0454/st,small,845x845-pad,1000x1000,f8f8f8.jpg',
-        name: 'Brayan',
-        role: 'ceator'),
-  ],
-);
