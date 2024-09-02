@@ -4,7 +4,7 @@ class FullScreenLoader extends StatelessWidget {
   FullScreenLoader({super.key});
 
   final messages = <String>[
-    'Cargando películas',
+    'Cargando comics',
     'Comprando palomitas de maíz',
     'Cargando populares',
     'Llamando a mi novia',

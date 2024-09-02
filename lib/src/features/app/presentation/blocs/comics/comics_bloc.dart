@@ -2,6 +2,7 @@ import 'package:comic_book_app/src/features/app/presentation/widgets/widgets.dar
 import 'package:comic_book_app/src/features/data/DTOs/dtos.dart';
 import 'package:comic_book_app/src/features/domain/entities/entities.dart';
 import 'package:comic_book_app/src/features/domain/useCases/get_comics_use_case.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'comics_event.dart';
@@ -32,12 +33,14 @@ class ComicsBloc extends Bloc<ComicsEvent, ComicsState> {
     } else {
       emit(state.copyWith(loadingNextPage: false));
     }
-    res.fold(Show.eitherError, (r) {
-      emit(state.copyWith(comics: r.comics, page: state.page + 1));
+    res.fold((l) => Show.eitherError(l, event.context), (r) {
+      final updatedComicsList = List<ComicEntity>.from(state.comics)
+        ..addAll(r.comics);
+      emit(state.copyWith(comics: updatedComicsList, page: state.page + 1));
     });
   }
 
-  void getNextPage() {
-    add(GetNextPage());
+  void getNextPage(BuildContext context) {
+    add(GetNextPage(context));
   }
 }

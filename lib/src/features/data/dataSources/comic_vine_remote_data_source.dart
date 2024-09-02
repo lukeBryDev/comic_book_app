@@ -16,8 +16,9 @@ class ComicVineRemoteDataSource extends ComicVineAPIProvider
     try {
       const String path = '/issues';
       final res = await dio.get(path,
-          queryParameters:
-              queryParams.copyWith(params: params.toQueryParams()).params);
+          queryParameters: queryParams
+              .copyWith(params: params.toQueryParams())
+              .queryParams());
       final issues = IssuesComicVineResponse.fromJson(res.data);
       return ComicsMapper.comicEntity(issues);
     } on DioException catch (e) {

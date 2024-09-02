@@ -1,5 +1,11 @@
 part of 'comics_bloc.dart';
 
-abstract class ComicsEvent {}
+abstract class ComicsEvent {
+  final BuildContext context;
 
-class GetNextPage extends ComicsEvent {}
+  ComicsEvent(this.context);
+}
+
+class GetNextPage extends ComicsEvent {
+  GetNextPage(super.context);
+}

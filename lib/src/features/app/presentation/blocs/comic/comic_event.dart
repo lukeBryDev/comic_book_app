@@ -7,5 +7,3 @@ class GetComicDetail extends ComicEvent {
 
   GetComicDetail(this.id);
 }
-
-void _getNextPage(GetNextPage event, Emitter<ComicsState> emit) {}
